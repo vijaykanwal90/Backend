@@ -6,7 +6,7 @@ import {app} from "./app.js"
 // import { DB_NAME } from "./constants";
 import connectDB from "./db/index.js"
 dotenv.config({
-    path: './env'
+    path: './.env'
 })
 // always try to handle database connectio using try and catch and use await and async beacuase is takes time
 
