@@ -1,6 +1,5 @@
-// require('dotenv').config({path: './env'})
 import dotenv from "dotenv"
-// import { app } from "./app.js"
+
 import {app} from "./app.js"
 // import mongoose from "mongoose";
 // import { DB_NAME } from "./constants";
@@ -8,6 +7,8 @@ import connectDB from "./db/index.js"
 dotenv.config({
     path: './.env'
 })
+// const pt = process.env.PORT;
+// console.log(pt)
 // always try to handle database connectio using try and catch and use await and async beacuase is takes time
 
 /*import express from "express";
@@ -30,6 +31,8 @@ const app = express();
 })()
 // here connection is established in the index file it makes the index.js file complex to do it professionalyy we create database connection file in db and then import here
 */
+// console.log(process.env.MONGODB_URL)
+
 connectDB() 
 .then(()=>{
     app.listen(process.env.PORT || 8000, ()=>{
