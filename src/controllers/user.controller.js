@@ -6,10 +6,11 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 const generateAccessAndRefreshTokens = async (userId) => {
     try {
         const user = await User.findById(userId)
+        console.log(user)
         const refreshToken = user.generateRefreshToken()
         const accessToken = user.generateAccessToken()
         user.refreshToken = refreshToken
-        user.save({ validateBeforeSave: false })
+        await user.save({ validateBeforeSave: false })
         //  because save methods invokes all the methods of db means it requires all the fields thats why false here no need to validate
 
         return { accessToken, refreshToken }
@@ -18,6 +19,7 @@ const generateAccessAndRefreshTokens = async (userId) => {
         throw new ApiError(500, "something went wrong while generating refresh and access token")
     }
 }
+
 const registerUser = asyncHandler(async (req, res) => {
     //   asking for a username email, and password and then save it to the database 
     // then validation of user details
@@ -82,6 +84,8 @@ const registerUser = asyncHandler(async (req, res) => {
         new ApiResponse(200, createdUser, "User registered successfully")
     )
 })
+
+
 const loginUser = asyncHandler(async (req, res) => {
     // req-body se data
     // to login need username or email password, 
@@ -90,9 +94,14 @@ const loginUser = asyncHandler(async (req, res) => {
     // then need access token and refresh token
     // send cookie
     // and response for succesfull
+    // const {email, username, password} = req.body
     const { email, username, password } = req.body
-    if (!username || !email) {
-        throw new ApiError(400, "username or passwoed is required")
+    // console.log(email)
+    // console.log(password)
+    // console.log(username)
+    // console.log(username)
+    if (!(username || email)) {
+        throw new ApiError(400, "username or password is required")
     }
     const user = await User.findOne({
         $or: [{ username }, { email }]
@@ -108,11 +117,15 @@ const loginUser = asyncHandler(async (req, res) => {
     const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(user._id)
 
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken")
+
+
     const options = {
         // as httpOnly true only this can be modified thorugh backend
         httpOnly: true,
         secure: true
     }
+
+
     return res
         .status(200)
         .cookie("accessToken", accessToken, options)
@@ -120,20 +133,21 @@ const loginUser = asyncHandler(async (req, res) => {
         .json(
             new ApiResponse(
                 200, {
-                    user: loggedInUser, accessToken, 
-                    refreshToken
-                },
+                user: loggedInUser, accessToken,
+                refreshToken
+            },
                 "User logged in successfully"
             )
         )
 })
-const logoutUser = asyncHandler(async(req,res)=>{
-   await User.findByIdAndUpdate(
-        req.user._id,{
-            $set: {
-                refreshToken: undefined
-            }
-        },
+const logoutUser = asyncHandler(async (req, res) => {
+    await User.findByIdAndUpdate(
+        req.user._id, 
+        {
+        $set: {
+            refreshToken: undefined
+        }
+    },
         {
             new: true
         }
@@ -142,11 +156,11 @@ const logoutUser = asyncHandler(async(req,res)=>{
         httpOnly: true,
         secure: true
     }
-    return res 
-    .status(200)
-    .clearCookie("accessToken", options)
-    .clearCookie("refreshToken", options)
-    .json(new ApiResponse(200,{},"User logged out"))
+    return res
+        .status(200)
+        .clearCookie("accessToken", options)
+        .clearCookie("refreshToken", options)
+        .json(new ApiResponse(200, {}, "User logged out"))
 })
 
 export {
