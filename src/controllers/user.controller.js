@@ -205,17 +205,17 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     }
 })
 const dashBoard = asyncHandler(async (req,res)=>{
-    const accessToken = req.cookies?.accessToken || req.body.accessToken
-    const refreshToken = req.cookies?.refreshToken || req.body.refreshToken
+//     const accessToken = req.cookies?.accessToken || req.body.accessToken
+//     const refreshToken = req.cookies?.refreshToken || req.body.refreshToken
 
-    if(!accessToken){
-        throw new ApiError(401,"login first ")
-    }
- const user = await User.findOne({refreshToken})
-//  console.log(user._id)
- const userDetails = await User.findById(user._id).select("-password -refreshToken")
+//     if(!accessToken){
+//         throw new ApiError(401,"login first ")
+//     }
+//  const user = await User.findOne(req.user._id)
+// //  console.log(user._id)
+//  const userDetails = await User.findById(user._id).select("-password -refreshToken")
  return res.status(201).json(
-    new ApiResponse(200, userDetails, "User dashboard")
+    new ApiResponse(200, req.user, "User dashboard")
 )
 //  console.log(user)
 //   get the access token
