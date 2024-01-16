@@ -235,6 +235,8 @@ const dashBoard = asyncHandler(async (req,res)=>{
 const changeCurrentPassword = asyncHandler(async (req,res)=>{
     const {oldPassword , newPassword} = req.body
     const user = await User.findById(req.user?._id)
+    console.log(user.avatar)
+    console.log(user)
    const isPasswordCorrect = await user.isPasswordCorrect(oldPassword)
    if(!isPasswordCorrect) {
     throw new Error("invalid old password")
@@ -253,7 +255,8 @@ const changeCurrentPassword = asyncHandler(async (req,res)=>{
 const getCurrentUser = asyncHandler( async (req,res)=>{
     return res
     .status(200)
-    .json(200, req.user,"current User fetched succesfully")
+    .json( new ApiResponse(200, req.user,"current User fetched succesfully")
+    )
 })
 
 
@@ -277,11 +280,14 @@ const updateAccountDetails = asyncHandler( async (req, res)=>{
         .json(new ApiResponse(200, user,"Account details updated successfully"))
 })
 
-const updateUserAvatar = asyncHandler(async (req,res)=>{
+const updateUserAvatar= asyncHandler(async (req,res)=>{
    const avatarLocalPath =  req.file?.path
-
+   console.log(avatarLocalPath)
+   const useravatar = await User.findById(req.user?._id)
+   console.log(useravatar.email)
+  
    if(!avatarLocalPath){
-    throw new ApiError(400,"avatar file is missing")
+    throw new ApiError(400, "avatar file is missing")
    }
 const avatar = await uploadOnCloudinary(avatarLocalPath)
 if(!avatar.url){
@@ -302,6 +308,7 @@ return res
 .json(
    new ApiResponse(200, "avatar image update succesfully")
 )
+
 })
 
 
