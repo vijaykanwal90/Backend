@@ -4,6 +4,8 @@ import { User } from "../models/user.model.js"
 import { uploadOnCloudinary } from "../utils/cloudinary.js"
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken"
+
+
 const generateAccessAndRefreshTokens = async (userId) => {
     try {
         const user = await User.findById(userId)
@@ -141,6 +143,7 @@ const loginUser = asyncHandler(async (req, res) => {
             )
         )
 })
+
 const logoutUser = asyncHandler(async (req, res) => {
     await User.findByIdAndUpdate(
         req.user._id,
@@ -148,6 +151,9 @@ const logoutUser = asyncHandler(async (req, res) => {
             $set: {
                 refreshToken: undefined
             }
+            // $unset: {
+            //     refreshToken: 1
+            // }
         },
         {
             new: true
@@ -163,6 +169,7 @@ const logoutUser = asyncHandler(async (req, res) => {
         .clearCookie("refreshToken", options)
         .json(new ApiResponse(200, {}, "User logged out"))
 })
+
 const refreshAccessToken = asyncHandler(async (req, res) => {
     const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
     console.log(incomingRefreshToken)

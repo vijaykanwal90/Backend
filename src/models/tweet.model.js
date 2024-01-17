@@ -1,4 +1,4 @@
-import { lowerCase, toLower } from 'lodash';
+// import { lowerCase, toLower } from 'lodash'
 import mongoose, { Schema } from 'mongoose';
 const tweetSchema = new Schema({
     owner: 
@@ -7,11 +7,10 @@ const tweetSchema = new Schema({
             ref:"User"
         },
     content: {
-        type: "String",
-        required: true,
-        trim: true,
-        lowerCase: true
+        type: String,
+        required: true
+      
     }
 
 }, { timestamps: true })
-export const Tweets = mongoose.model("Tweets", tweetSchema);
+export const Tweet = mongoose.model("Tweet", tweetSchema);

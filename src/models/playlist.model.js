@@ -1,30 +1,29 @@
-import { lowerCase, uniq } from "lodash";
-import { Mongoose, Schema } from "mongoose";
+// import { lowerCase, uniq } from "lodash";
+import Mongoose, { Schema } from "mongoose";
 const playlistSchema = new Schema({
-    name:{
-        type:"String",
-        required:true,
-        lowerCase:true,
-        unique:true
+    name: {
+        type: String,
+        required: true,
+        lowerCase: true,
+        unique: true
     },
-    description:{
-        type:"String",
-        required:true,
-        lowerCase:true,
+    description: {
+        type: String,
+        required: true,
+        lowerCase: true
     },
-    videos:[
+    videos: [
         {
-            type:Schema.Types.ObjectId,
-            ref:"Video"
+            type: Schema.Types.ObjectId,
+            ref: "Video"
         }
     ],
-    owner:{
+    owner: {
         type: Schema.Types.ObjectId,
-        ref:"User"
+        ref: "User"
     }
 },
+    { timestamps: true })
 
-{timestamps:true})
-   
 
-export const Playlist = mongoose.model("Playlist",playlistSchema)
+export const Playlist = mongoose.model("Playlist", playlistSchema)
