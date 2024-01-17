@@ -355,7 +355,7 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
         },
         {
             $lookup: {
-                from: "subscription",
+                from: "subscriptions",
                 localField: "_id",
                 foreignField: "channel",
                 as: "subscribers"
@@ -454,7 +454,7 @@ const getWatchHistory = asyncHandler(async (req,res)=>{
     return res
     .status(200)
     .json(
-        new ApiResponse(200, user[0].watchHistory,"watch histriy fetched successfully" )
+        new ApiResponse(200, user[0].watchHistory,"watch history fetched successfully" )
     )
 })
 
