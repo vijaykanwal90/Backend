@@ -26,7 +26,7 @@ try{
     })
     // file has been uploaded succesfully
     
-    // console.log(response.url);
+    console.log(response.url);
     fs.unlinkSync(localFilePath);
     return response;
 }

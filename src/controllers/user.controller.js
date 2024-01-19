@@ -9,7 +9,7 @@ import jwt from "jsonwebtoken"
 const generateAccessAndRefreshTokens = async (userId) => {
     try {
         const user = await User.findById(userId)
-        console.log(user)
+        // console.log(user)
         const refreshToken = user.generateRefreshToken()
         const accessToken = user.generateAccessToken()
         user.refreshToken = refreshToken
@@ -36,7 +36,7 @@ const registerUser = asyncHandler(async (req, res) => {
     // const {fullname, email, username, password} = req.body 
     const { username, email, fullname, password } = req.body;
 
-    console.log("email", email);
+    // console.log("email", email);
     // if(fullname === ""){
     //     throw new ApiError( 400 , "Fullname is required")
     // }
@@ -51,9 +51,9 @@ const registerUser = asyncHandler(async (req, res) => {
     if (existedUser) {
         throw new ApiError(409, "User with email or username already exists")
     }
-    console.log(req.files);
+    // console.log(req.files);
     const avatarLocalPath = req.files?.avatar[0]?.path;
-    console.log(avatarLocalPath)
+    // console.log(avatarLocalPath)
     // const coverImageLocalPath = req.files?.coverImage[0]?.path;
     // console.log(coverImageLocalPath);
     let coverImageLocalPath;
@@ -172,7 +172,7 @@ const logoutUser = asyncHandler(async (req, res) => {
 
 const refreshAccessToken = asyncHandler(async (req, res) => {
     const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
-    console.log(incomingRefreshToken)
+    // console.log(incomingRefreshToken)
     if (!incomingRefreshToken) {
         throw new ApiError(401, "unauthorized request")
     }
@@ -242,8 +242,8 @@ const dashBoard = asyncHandler(async (req, res) => {
 const changeCurrentPassword = asyncHandler(async (req, res) => {
     const { oldPassword, newPassword } = req.body
     const user = await User.findById(req.user?._id)
-    console.log(user.avatar)
-    console.log(user)
+    // console.log(user.avatar)
+    // console.log(user)
     const isPasswordCorrect = await user.isPasswordCorrect(oldPassword)
     if (!isPasswordCorrect) {
         throw new Error("invalid old password")
@@ -289,9 +289,9 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
 
 const updateUserAvatar = asyncHandler(async (req, res) => {
     const avatarLocalPath = req.file?.path
-    console.log(avatarLocalPath)
+    // console.log(avatarLocalPath)
     const useravatar = await User.findById(req.user?._id)
-    console.log(useravatar.email)
+    // console.log(useravatar.email)
 
     if (!avatarLocalPath) {
         throw new ApiError(400, "avatar file is missing")
