@@ -17,8 +17,8 @@ const publishAVideo = asyncHandler (async (req,res)=>{
 // const user = await User.findById(req._id);
 // console.log(user)
 const {title, description} = req.body
-const videos = await Video.findById(req._id)
-console.log(videos)
+// const videos = await Video.find()
+// console.log(videos)
 if((title && description ) ===""){
     throw new ApiError(400,"provide the title and description")
 }
@@ -45,21 +45,31 @@ if(!videoFile){
     throw new ApiError(400,"video not uploaded to databases")
 
 }
-console.log(videoFile)
+const owner = await req.user?._id
+    // console.log(owner)
+    const username = await req.user?.username
+// console.log(username)
+// console.log(videoFile)
 const video = await Video.create({
     title,
     description,
     thumbnail: thumbnail.url,
     videoFile: videoFile.url,
-    duration:videoFile.duration
+    duration:videoFile.duration,
+    owner,
+    username: username
+
 })
 
 
 })
  
 const getAllVideo = asyncHandler(async (req,res)=>{
-    const videos = await Video.findById(_id)
-    console.log(videos)
+    const videos = await Video.find()
+    
+    // console.log(videos)
+    // console.log("to get all videos routes")
+
     return res
     .status(200)
     .json(
@@ -68,8 +78,21 @@ const getAllVideo = asyncHandler(async (req,res)=>{
 
 })
 
+const getVideoById= asyncHandler(async (req,res)=>{
+    const video = await req.user?._id
+    console.log(video)
+    const videos = await Video.find(video)
+
+    console.log(videos)
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(200,videos,"video by id is fetched succesfully")
+    )
+})
 
 export {
     publishAVideo,
-    getAllVideo
+    getAllVideo,
+    getVideoById
 }
