@@ -1,7 +1,7 @@
 // publishVideo
 // getAllVideo
 // getVideoById
-// deleteVIdeo
+// deleteVideo
 // togglePUblishStatus
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js"
@@ -79,11 +79,17 @@ const getAllVideo = asyncHandler(async (req,res)=>{
 })
 
 const getVideoById= asyncHandler(async (req,res)=>{
-    const video = await req.user?._id
-    console.log(video)
-    const videos = await Video.find(video)
-
+    const videoId = await req.user?._id
+    // console.log(videoId)
+    const videos = await Video.find({owner:videoId})
+        
+        
+    
+// console.log(videos)
     console.log(videos)
+    if(videos.length<0){
+        throw new ApiError(404,"video not found")
+    }
     return res
     .status(200)
     .json(
