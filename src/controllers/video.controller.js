@@ -6,7 +6,7 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js"
 import { Video} from "../models/video.model.js"
-import {User} from "../models/user.model.js"
+// import {User} from "../models/user.model.js"
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { response } from "express";
@@ -85,10 +85,10 @@ const getVideoById= asyncHandler(async (req,res)=>{
         
         
     
-// console.log(videos)
-    console.log(videos)
-    if(videos.length<0){
-        throw new ApiError(404,"video not found")
+console.log(videos)
+    // console.log(videos.length)
+    if(videos.length==0){
+        throw new ApiError(404," no video  found")
     }
     return res
     .status(200)
@@ -97,8 +97,24 @@ const getVideoById= asyncHandler(async (req,res)=>{
     )
 })
 
+const deleteVideo = asyncHandler(async (req,res)=>{
+ 
+    // console.log("video not found")
+    
+    const videos  = await Video?._id
+    console.log(videos)
+    // console.log(video)
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(200,videos,"video by id is deleted succesfully")
+    )
+
+})
+
 export {
     publishAVideo,
     getAllVideo,
-    getVideoById
+    getVideoById,
+    deleteVideo
 }
