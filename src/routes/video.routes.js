@@ -8,7 +8,7 @@ import {
 } from "../controllers/video.controller.js"
 import { upload } from "../middlewares/multer.middleware.js"
 import { verifyJWT } from "../middlewares/auth.middleware.js";
-
+// import { verifyChannel } from "../middlewares/video.middleware.js";
 const router = Router()
 router.route("/upload").post(verifyJWT,upload.fields([
     {
@@ -23,5 +23,5 @@ router.route("/upload").post(verifyJWT,upload.fields([
  
 router.route("/allVideos").get(verifyJWT,getAllVideo)
 router.route("/VideoById").get(verifyJWT,getVideoById)
-router.route("/deleteTheVideo").get(deleteVideo)
+router.route("/deleteTheVideo").get(verifyJWT,deleteVideo)
 export default router

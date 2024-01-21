@@ -6,10 +6,11 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js"
 import { Video} from "../models/video.model.js"
+// import { channel} from "../middlewares/video.middleware.js"
 // import {User} from "../models/user.model.js"
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
-import { response } from "express";
+// import { response } from "express";
 const publishAVideo = asyncHandler (async (req,res)=>{
 // take a video
 // get the video title and description
@@ -65,7 +66,7 @@ const video = await Video.create({
 })
  
 const getAllVideo = asyncHandler(async (req,res)=>{
-    const videos = await Video.find()
+    const videos = await Video.find({owner: req.user?._id})
     
     // console.log(videos)
     // console.log("to get all videos routes")
@@ -100,8 +101,8 @@ console.log(videos)
 const deleteVideo = asyncHandler(async (req,res)=>{
  
     // console.log("video not found")
-    
-    const videos  = await Video?._id
+    const { videoId} = req.channel?._id;
+    const videos  = await Video.findById({videoId})
     console.log(videos)
     // console.log(video)
     return res
