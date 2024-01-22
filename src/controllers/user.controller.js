@@ -223,6 +223,7 @@ const dashBoard = asyncHandler(async (req, res) => {
     //  const user = await User.findOne(req.user._id)
     // //  console.log(user._id)
     //  const userDetails = await User.findById(user._id).select("-password -refreshToken")
+    // console.log(req.user.fullname)
     return res.status(201).json(
         new ApiResponse(200, req.user, "User dashboard")
     )

@@ -59,10 +59,12 @@ const video = await Video.create({
     videoFile: videoFile.url,
     duration:videoFile.duration,
     owner,
-    username: username
+    username: req.user.username
 
 })
-
+console.log(video.title)
+console.log(video.isPublished)
+console.log(video.username)
 
 })
  
@@ -118,9 +120,37 @@ const deleteVideo = asyncHandler(async (req,res)=>{
 
 })
 
+// const publishStatus = asyncHandler(async(req,res)=>{
+//     const { videoId } =req.params
+//     console.log(videoId)
+//     const video  = await Video.findByIdAndUpdate(videoId,
+        
+//         {
+//             $set:{
+//                $isPublished: !($isPublished)
+//             }
+//         },
+//         {new : true}
+
+//         )
+
+     
+//     const publishedStatus = video.isPublished
+//     console.log(!publishedStatus)
+    
+    
+//  return res
+//  .status(200)
+//  .json(
+//     new ApiResponse(200, video,"publish status toggled")
+//  )
+
+// })
+
 export {
     publishAVideo,
     getAllVideo,
     getVideoById,
-    deleteVideo
+    deleteVideo,
+    // publishStatus
 }
