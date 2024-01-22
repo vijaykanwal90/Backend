@@ -23,5 +23,5 @@ router.route("/upload").post(verifyJWT,upload.fields([
  
 router.route("/allVideos").get(verifyJWT,getAllVideo)
 router.route("/VideoById").get(verifyJWT,getVideoById)
-router.route("/deleteTheVideo").get(verifyJWT,deleteVideo)
+router.route("/c/:videoId").get(verifyJWT,deleteVideo)
 export default router

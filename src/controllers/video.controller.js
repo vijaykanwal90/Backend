@@ -101,14 +101,15 @@ console.log(videos)
 const deleteVideo = asyncHandler(async (req,res)=>{
  
     // console.log("video not found")
-    const { videoId} = req.channel?._id;
-    const videos  = await Video.findById({videoId})
-    console.log(videos)
+    const { videoId } = req.params
+    console.log(videoId)
+    const video  = await Video.findById({_id:videoId})
+    console.log(video)
     // console.log(video)
     return res
     .status(200)
     .json(
-        new ApiResponse(200,videos,"video by id is deleted succesfully")
+        new ApiResponse(200,video,"video by id is deleted succesfully")
     )
 
 })
