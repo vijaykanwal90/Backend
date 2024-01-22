@@ -10,6 +10,7 @@ import { Video} from "../models/video.model.js"
 // import {User} from "../models/user.model.js"
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import {mongoose} from "mongoose"
 // import { response } from "express";
 const publishAVideo = asyncHandler (async (req,res)=>{
 // take a video
@@ -102,9 +103,12 @@ const deleteVideo = asyncHandler(async (req,res)=>{
  
     // console.log("video not found")
     const { videoId } = req.params
-    console.log(videoId)
-    const video  = await Video.findById({_id:videoId})
-    console.log(video)
+    // console.log(videoId)
+    if (!mongoose.isValidObjectId(videoId)) {
+        return res.status(400).json(new ApiResponse(400, null, "Invalid videoId"));
+      }
+    const video  = await Video.findByIdAndDelete(videoId)
+    // console.log(video)
     // console.log(video)
     return res
     .status(200)
