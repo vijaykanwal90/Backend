@@ -21,10 +21,10 @@ router.route("/upload").post(verifyJWT,upload.fields([
         maxCount:1
     }
 ]),publishAVideo)
- 
-router.route("/allVideos").get(verifyJWT,getAllVideo)
-router.route("/VideoById").get(verifyJWT,getVideoById)
-router.route("/c/:videoId").get(verifyJWT,deleteVideo)
+router.use(verifyJWT);
+router.route("/allVideos").get(getAllVideo)
+router.route("/VideoById").get(getVideoById)
+router.route("/c/:videoId").get(deleteVideo)
 // router.route("/c/publishStatus/:videoId").get(verifyJWT,publishStatus)
 
 export default router

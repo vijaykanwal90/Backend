@@ -59,12 +59,12 @@ const video = await Video.create({
     videoFile: videoFile.url,
     duration:videoFile.duration,
     owner,
-    username: req.user.username
+    username: req.owner.username
 
 })
-console.log(video.title)
-console.log(video.isPublished)
-console.log(video.username)
+// console.log(video.title)
+// console.log(video.isPublished)
+// console.log(video.username)
 
 })
  
