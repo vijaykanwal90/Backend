@@ -1,6 +1,7 @@
 import { verifyJWT } from "../middlewares/auth.middleware.js"
 import {
    addComment,
+   deleteComment,
    getVideoComment,
    updateComment
    
@@ -14,5 +15,6 @@ router.use(verifyJWT)
 router.route("/:videoId").post(addComment)
 router.route("/:videoId").get(getVideoComment)
 router.route("/update/:commentId").post(updateComment)
+router.route("/delete/:commentId").delete(deleteComment)
 
 export default router

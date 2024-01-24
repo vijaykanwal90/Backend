@@ -96,12 +96,29 @@ const updateComment = asyncHandler(async (req, res) => {
   return res.status(200).json(new ApiResponse(200,comment,"comment updated successfully"));
 });
 
+const deleteComment = asyncHandler(async (req,res)=>{
+  const {commentId } = req.params
+  if(!commentId) {
+    throw new ApiError(500, "comment not found")
+  }
 
+     const comment = await Comment.findByIdAndDelete(commentId)
+if(!comment){
+  throw new ApiError(200,"comment not deleted")
+}
+  return res
+  .status(200)
+  .json(
+    new ApiResponse(200,"comment deleted successfully")
+  )
+  
+})
 
 export {
   addComment,
   getVideoComment,
-  updateComment
+  updateComment,
+  deleteComment
 }
 
 
