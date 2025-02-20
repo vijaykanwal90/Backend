@@ -25,7 +25,7 @@ app.use("/api/v1/videos",videoRouter)
 app.use("/api/v1/comments",commentRouter)
 app.use("/api/v1/tweets",tweetRouter)
 app.use("/api/v1/likes",likeRouter)
-app.get("/", (req, res) => {
+app.get("/user", (req, res) => {
     res.send("hello world");
 });
 
